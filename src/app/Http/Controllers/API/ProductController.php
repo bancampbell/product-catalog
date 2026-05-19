@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Filters\ProductFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
@@ -10,6 +11,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
@@ -19,9 +21,13 @@ class ProductController extends Controller
     /**
      * GET /api/products - список товаров
      */
-    public function index(): ProductCollection
+    public function index(Request $request): ProductCollection
     {
-        $products = Product::with('category')->paginate(10);
+        $filter = new ProductFilter($request);
+
+        $products = Product::with('category')
+            ->filter($filter)
+            ->paginate(10);
 
         return new ProductCollection($products);
     }

@@ -8,8 +8,12 @@
                             Product Catalog
                         </Link>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <Link href="/admin" class="text-gray-600 hover:text-gray-900">
+                    <div class="hidden sm:flex items-center space-x-4">
+                        <Link
+                            href="/admin/products"
+                            class="text-gray-600 hover:text-gray-900"
+                            :class="{ 'text-indigo-600 font-semibold': $page.url.startsWith('/admin') }"
+                        >
                             Admin Panel
                         </Link>
                     </div>
